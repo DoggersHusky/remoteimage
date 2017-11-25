@@ -1,6 +1,6 @@
 {
     "name": "buckleshusky/remoteimage",
-    "description": "Adds a new page type called YoutubeVideoPage. This page will allow the admin to quickly add their youtube videos to their site. ",
+    "description": "Quickly get remote images off of other websites. ",
     "type": "silverstripe-module",
     "keywords": ["silverstripe", "bitbucket", "youtube", "video"],
     "license": "BSD-3-Clause",
