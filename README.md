@@ -27,10 +27,4 @@ $this->VideoImageID = $videoImage->makeImageAndLink();
 
 
 #### Configuration Options
-You will need to add your google api key to your config.yml
-"https://developers.google.com/youtube/v3/getting-started"
-
-```yml
-YoutubeData:
-    Api:  #Api key required
-```
+Nothing to configure
