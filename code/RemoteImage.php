@@ -1,6 +1,9 @@
 <?php
 
 use SilverStripe\Control\Director;
+use SilverStripe\Assets\Folder;
+use SilverStripe\Assets\Image;
+use SilverStripe\Security\Security;
 
 class RemoteImage {
     
@@ -29,7 +32,7 @@ class RemoteImage {
     
     private function setTitle($title) {
         //set the title and clean it
-        $this->Title = str_replace(" ", "_", preg_replace('/[^A-Za-z0-9\-]/', '',$this->Title) );
+        $this->Title = str_replace(" ", "_", preg_replace('/[^A-Za-z0-9\-]/', '', $title) );
     }
     
     /*
@@ -61,7 +64,7 @@ class RemoteImage {
         //get the relative path to the file
         $this->relativeFilePath = $this->folder->Filename . $this->Title . '.' . $fileType;
         //get the full path
-        $this->fullPath = $basePath . $this->relativeFilePath;
+        $this->fullPath = $basePath ."assets/". $this->relativeFilePath;
         
         //check to see if the file exist
         if (!file_exists($this->fullPath)){
@@ -89,10 +92,11 @@ class RemoteImage {
     public function makeImageAndLink() {
         $file = new Image();
         $file->ParentID = $this->folder->ID;
-        $file->OwnerID = (Member::currentUser()) ? Member::currentUser()->ID : 0;
+        $file->OwnerID = Security::getCurrentUser()->ID;
         $file->Name	= basename($this->relativeFilePath);
-        $file->Filename = $this->relativeFilePath;
         $file->Title = $this->Title;
+        $file->setFromLocalFile($this->fullPath);
+        $file->publishFile();
         $file->write();
         
         return $file->ID;
