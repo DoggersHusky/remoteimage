@@ -68,6 +68,7 @@ class RemoteImage {
         
         //check to see if the file exist
         if (!file_exists($this->fullPath)){
+            
             // download the file
             $fp = fopen($this->fullPath, 'w');
             $ch = curl_init($this->URL);
@@ -90,14 +91,22 @@ class RemoteImage {
      * @return Int
      */
     public function makeImageAndLink() {
-        $file = new Image();
-        $file->ParentID = $this->folder->ID;
-        $file->OwnerID = Security::getCurrentUser()->ID;
-        $file->Name	= basename($this->relativeFilePath);
-        $file->Title = $this->Title;
-        $file->setFromLocalFile($this->fullPath);
-        $file->publishFile();
-        $file->write();
+        
+        $file = Image::get()->filter([
+            'Title'=>$this->Title
+        ])->first();
+        
+        if (!$file) {
+            $file = new Image();
+            $file->ParentID = $this->folder->ID;
+            $file->OwnerID = Security::getCurrentUser()->ID;
+            //$file->Name	= basename($this->relativeFilePath);
+            $file->Title = $this->Title;
+            $file->setFromLocalFile($this->fullPath,$this->relativeFilePath);
+            $file->publishFile();
+            $file->write();
+        }
+        
         
         return $file->ID;
     }
