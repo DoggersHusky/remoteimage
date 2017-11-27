@@ -1,5 +1,7 @@
 <?php
 
+use SilverStripe\Control\Director;
+
 class RemoteImage {
     
     
