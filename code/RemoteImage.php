@@ -100,14 +100,12 @@ class RemoteImage {
             $file = new Image();
             $file->ParentID = $this->folder->ID;
             $file->OwnerID = Security::getCurrentUser()->ID;
-            //$file->Name	= basename($this->relativeFilePath);
-            $file->Title = $this->Title;
             $file->setFromLocalFile($this->fullPath,$this->relativeFilePath);
+            $file->CanViewType = "Anyone";
+            $file->grantFile();
             $file->publishFile();
             $file->write();
         }
-        
-        
         return $file->ID;
     }
     
