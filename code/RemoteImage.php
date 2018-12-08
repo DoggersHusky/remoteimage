@@ -55,7 +55,7 @@ class RemoteImage {
      */
     public function getImage() {
         //get the file type
-        $fileType = substr(strrchr($this->URL, '.'), 1);
+        $fileType = 'jpg';
         
         //get the base path
         $basePath = Director::baseFolder() . DIRECTORY_SEPARATOR;
